@@ -1,13 +1,13 @@
-PRA 自动更新发布包（GitHub 静默升级）
+RPA 自动更新发布包（GitHub 静默升级）
 ========================================
 
-这是「发布仓库」，里面的文件会被推到 GitHub（mmxn1218/pra），
-客户的 PRA.exe 启动时就会去这个仓库检查并静默升级。
+这是「发布仓库」，里面的文件会被推到 GitHub（mmxn1218/RPA），
+客户的 RPA.exe 启动时就会去这个仓库检查并静默升级。
 
 【目录里的文件】
   - version.json    版本信息 {"version","md5","size"}（发布脚本自动生成）
-  - PRA.dat         新版程序的副本（jsDelivr 对 .exe 返回 403，所以用 .dat）
-  - PRA.exe         同样的新版副本（给旧客户端 / 直接下载用）
+  - RPA.dat         新版程序的副本（jsDelivr 对 .exe 返回 403，所以用 .dat）
+  - RPA.exe         同样的新版副本（给旧客户端 / 直接下载用）
   - make_release.py 打包脚本：从 update.h 读版本号 + 算 md5 + 复制文件
   - publish.bat     推送脚本：读取 D:/wbuddy/.ghtoken 的 token，git 提交并 push
   - README.txt      本说明
@@ -21,7 +21,7 @@ PRA 自动更新发布包（GitHub 静默升级）
 
 2) 在【能访问 github.com 的机器】上，进入本目录，双击 publish.bat。
    - 它会读取 D:/wbuddy/.ghtoken 里的 token 自动认证并推送。
-   - 推送成功后，访问 https://github.com/mmxn1218/pra 能看到三个文件。
+   - 推送成功后，访问 https://github.com/mmxn1218/RPA 能看到三个文件。
 
    （说明：本机（沙箱环境）当前连不上 github.com，所以这一步需要你在能联网的
     机器上执行，或把本目录拷过去执行。）
@@ -29,31 +29,31 @@ PRA 自动更新发布包（GitHub 静默升级）
 ------------------------------------------------------------------
 二、以后每次发新版（日常流程）
 ------------------------------------------------------------------
-1) 改 D:/PRA/src/update.h 里的 PRA_VERSION，格式 YYYY.MM.DD.HHMM（必须比上一版大）。
-2) 双击 D:/PRA/src/build.bat 重新编译出 D:/PRA/PRA.exe。
+1) 改 D:/RPA/src/update.h 里的 RPA_VERSION，格式 YYYY.MM.DD.HHMM（必须比上一版大）。
+2) 双击 D:/RPA/src/build.bat 重新编译出 D:/RPA/RPA.exe。
 3) 在本发布目录运行：  python make_release.py
-   （自动写出新的 version.json，并把 PRA.exe 复制成 PRA.dat / PRA.exe）
+   （自动写出新的 version.json，并把 RPA.exe 复制成 RPA.dat / RPA.exe）
 4) 双击 publish.bat 推送。
-5) 客户的 PRA.exe 下次启动时会在后台静默下载并替换自己，无需重装。
+5) 客户的 RPA.exe 下次启动时会在后台静默下载并替换自己，无需重装。
 
 ------------------------------------------------------------------
 三、给客户的那份
 ------------------------------------------------------------------
-- 客户拿到的就是一个 PRA.exe（单文件、双击即用、不需要安装、不附带任何运行库）。
+- 客户拿到的就是一个 RPA.exe（单文件、双击即用、不需要安装、不附带任何运行库）。
 - 它依赖 Windows 10/11 系统自带的 UCRT（系统已有），所以正常环境下无需任何额外文件。
 - 启动后约 3 秒会在后台检查更新：有新版就静默下载、校验 md5、替换并重启；
-  整个过程写日志到 PRA_update.log，更新若失败会弹窗提示（不会悄悄吞掉）。
+  整个过程写日志到 RPA_update.log，更新若失败会弹窗提示（不会悄悄吞掉）。
 
-【重要】客户请把 PRA.exe 放在「自己有写入权限」的文件夹里
+【重要】客户请把 RPA.exe 放在「自己有写入权限」的文件夹里
 （例如桌面、文档、或自建的一个目录），【不要】放在 C:\Program Files 下，
 否则自动更新没有写权限会失败。
 
 ------------------------------------------------------------------
 四、自检 / 排查
 ------------------------------------------------------------------
-- 看不到更新？先查 PRA_update.log（在 PRA.exe 同目录）：
+- 看不到更新？先查 RPA_update.log（在 RPA.exe 同目录）：
   会记录「已是最新 / 发现新版本 / 检查失败原因」。
 - 检查失败多半是客户网络访问不了 github.com 或 jsDelivr（国内网络常见），
   日志里会写具体错误码；必要时可换网络或改 update.h 的备用地址。
 - 想彻底去掉 token 留在本地配置里：push 完后在本目录执行
-  git remote set-url origin https://github.com/mmxn1218/pra.git
+  git remote set-url origin https://github.com/mmxn1218/RPA.git

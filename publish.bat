@@ -3,7 +3,7 @@ cd /d "%~dp0"
 setlocal EnableDelayedExpansion
 
 set TOKENFILE=D:\wbuddy\.ghtoken
-set REPO=mmxn1218/pra
+set REPO=mmxn1218/RPA
 set BRANCH=main
 
 :: read token (first non-empty line of token file)
@@ -27,7 +27,7 @@ git remote add origin https://%TOKEN%@github.com/%REPO%.git
 :: stage and commit (only if there are changes)
 git add -A
 git diff --cached --quiet
-if errorlevel 1 ( git commit -q -m "release PRA" ) else ( echo [INFO] nothing new to commit )
+if errorlevel 1 ( git commit -q -m "release RPA" ) else ( echo [INFO] nothing new to commit )
 
 :: push (requires: 1) GitHub repo %REPO% created empty; 2) machine can reach github.com; 3) token valid)
 git branch -M %BRANCH%
